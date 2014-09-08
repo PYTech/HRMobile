@@ -1,4 +1,4 @@
 HRMobile
 ========
 
-HiRender Manager Android Version
+HRM Android Version
