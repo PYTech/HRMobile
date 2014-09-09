@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <ImageView
+        android:id="@+id/hrm_logo"
+        android:layout_width="match_parent"
+    	android:layout_height="160sp"
+    	android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="40sp"
+        android:contentDescription="@string/desc_logo_hrm"
+        android:src="@drawable/logo_hrm" />
+
+    <TextView
+        android:id="@+id/label_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/hrm_logo"
+        android:layout_below="@id/hrm_logo"
+        android:layout_marginTop="20sp"
+        android:text="@string/label_login_account"
+        android:textSize="@dimen/title_txt_size" />
+    
+    <EditText
+        android:id="@+id/input_account"
+        android:layout_width="240sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hrm_logo"
+        android:layout_marginTop="20sp"
+        android:layout_alignRight="@id/hrm_logo"
+        android:layout_marginLeft="40sp"
+        android:inputType="text" />
+    
+    <TextView
+        android:id="@+id/label_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/hrm_logo"
+        android:layout_below="@id/label_account"
+        android:layout_marginTop="20sp"
+        android:text="@string/label_login_mima"
+        android:textSize="@dimen/title_txt_size" />
+    
+    <EditText
+        android:id="@+id/input_password"
+        android:layout_width="240sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_account"
+        android:layout_marginTop="20sp"
+        android:layout_alignRight="@id/hrm_logo"
+        android:layout_marginLeft="40sp"
+        android:inputType="textPassword" />
+    
+    <CheckBox 
+        android:id="@+id/check_remember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_password"
+        android:layout_marginTop="40sp"
+        android:layout_alignLeft="@id/input_password" />
+    
+    <TextView
+        android:id="@+id/label_remember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/input_password"
+        android:layout_below="@id/input_password"
+        android:layout_marginTop="40sp"
+        android:text="@string/label_login_remember"
+        android:textSize="@dimen/title_txt_size" />
+
+</RelativeLayout>
