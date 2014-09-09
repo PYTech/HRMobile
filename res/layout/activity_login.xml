@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20sp"
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="80dp"
         android:contentDescription="@string/desc_logo_hrm"
         android:src="@drawable/logo_hrm" />
 
