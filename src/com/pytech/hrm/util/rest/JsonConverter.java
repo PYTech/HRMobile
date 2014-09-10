@@ -1,4 +1,4 @@
-package com.pytech.hrm.util;
+package com.pytech.hrm.util.rest;
 
 import java.util.List;
 
