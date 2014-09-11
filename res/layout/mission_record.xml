@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_len"
+    android:orientation="horizontal" >
+    
+    <!-- 勾選 -->
+    <CheckBox
+        android:id="@+id/selected_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_select_margin"
+        android:checked="false"
+        android:contentDescription="@string/label_select"
+        android:gravity="center" />
+    
+    <!-- 算圖軟體圖示 -->
+    <ImageView 
+        android:id="@+id/type_software"
+        android:layout_width="@dimen/item_len"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/logo_maya"
+        android:contentDescription="@string/label_software" />
+ 
+ 	<!-- 顯示任務摘要 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_margin"
+        android:padding="@dimen/default_padding"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+ 
+        <!-- 任務名稱 -->
+        <TextView 
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical" />
+ 
+        <!-- 最後修改時間 -->
+        <TextView 
+            android:id="@+id/date_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical" />
+        
+        <!-- 執行進度 -->
+        <ProgressBar 
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            style="?android:attr/progressBarStyleHorizontal" />
+ 
+    </LinearLayout>
+    
+
+</LinearLayout>

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.pytech.hrm.R;
 import com.pytech.hrm.util.constants.HRM;
 
-public class MainActivity extends Activity {
+public class MainActivity extends HRMActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 		if(Activity.RESULT_OK == resultCode) {
 			switch(requestCode) {
 				case HRM.REQ_CODE_LOGIN:
-					// TODO: 顯示功能選單 (或直接跳到任務列表)
+					// TODO: 顯示功能選單 (目前先直接跳到任務列表)
 					break;
 			}
 		} else {

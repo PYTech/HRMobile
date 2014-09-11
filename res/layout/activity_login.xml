@@ -81,7 +81,8 @@
         android:layout_marginTop="@dimen/login_top_margin"
         android:orientation="horizontal" >
         
-        <ToggleButton 
+        <ToggleButton
+            android:id="@+id/toggle_remember_me"
             android:layout_width="60sp"
 	        android:layout_height="30sp"
 	        android:textOn="@string/empty"

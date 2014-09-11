@@ -13,5 +13,8 @@
     <dimen name="login_top_margin">30dp</dimen>
     <dimen name="login_left_margin">30dp</dimen>
     <dimen name="login_right_margin">30dp</dimen>
-
+    
+    <dimen name="item_len">72sp</dimen>
+    <dimen name="item_select_margin">24sp</dimen>
+	<dimen name="item_radius">20sp</dimen>
 </resources>

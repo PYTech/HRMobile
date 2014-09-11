@@ -5,15 +5,30 @@
     
     <string name="app_name">雲算圖</string>
     <string name="action_settings">設定</string>
+    <string name="about">這是 HiRender Android 手機版應用程式</string>
+    <string name="version">版本: 1.0</string>
     
     <string name="title_login">登入雲算圖</string>
     <string name="label_login_account">帳號</string>
     <string name="label_login_mima">密碼</string>
     <string name="label_login_remember">記住登入資訊</string>
     <string name="label_login_go">登入</string>
-    <string name="label_login_cancel">退出</string>
-    <string name="label_login_ok">登入成功</string>
-    <string name="label_login_fail">登入失敗</string>
+    <string name="msg_login_ok">登入成功</string>
+    <string name="msg_login_fail">登入失敗</string>
+    <string name="msg_login_progress">登入雲算圖中&#8230;</string>
+    
+    <string name="label_menu_item_search">搜尋</string>
+    <string name="label_menu_item_retry">重試</string>
+    <string name="label_menu_item_cancel">取消</string>
+    <string name="label_menu_item_pause">暫停</string>
+    <string name="label_menu_preference">使用者偏好</string>
+    
+    <string name="label_software">算圖軟體種類</string>
+    <string name="label_select">選取</string>
+    
+    <string name="label_mission_name">任務名稱：</string>
+    <string name="label_mission_last_update">最後更新：</string>
+    <string name="label_mission_progress">執行進度：</string>
     
     <string name="desc_logo_hrm">雲算圖行動版</string>
     <string name="desc_preference">設定</string>
