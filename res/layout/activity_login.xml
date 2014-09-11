@@ -69,6 +69,7 @@
 	    android:text="@string/label_login_go"
 	    android:textSize="@dimen/txt_size_large"
 	    android:background="@android:color/holo_orange_light"
+	    android:onClick="login"
 	    style="?android:attr/borderlessButtonStyle" />
     
     
@@ -101,11 +102,13 @@
     
     
     <ImageButton
+        android:id="@+id/button_help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:src="@android:drawable/ic_menu_preferences"
-        android:contentDescription="@string/desc_preference"
+        android:src="@drawable/ic_action_help"
+        android:contentDescription="@string/desc_help"
+        android:onClick="helpMe"
         style="?android:attr/borderlessButtonStyle" />
         
 </LinearLayout>

@@ -61,4 +61,7 @@ public class REST {
 
 	// Param content variables
 	public static final String PARAM_TIME_FORMAT = "yyyy/MM/dd HH:mm:ss";
+	
+	// Help link
+	public static final String PATH_HELP_CENTER = "/download";
 }

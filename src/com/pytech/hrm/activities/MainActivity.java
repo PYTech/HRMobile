@@ -1,27 +1,13 @@
 package com.pytech.hrm.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pytech.hrm.R;
-import com.pytech.hrm.util.constants.REST;
-import com.pytech.hrm.util.rest.HRMHttpClientFactory;
+import com.pytech.hrm.util.constants.HRM;
 
 public class MainActivity extends Activity {
 
@@ -29,9 +15,14 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		// Initializations.
+		this.processViews();
+		this.processActions();
 
+		// TODO: 判斷是否設定為自動登入，如果未設定或是登入失敗，才顯示登入畫面
 		if(true) {
-			startActivity(new Intent(this, LoginActivity.class));
+			startActivityForResult(new Intent(this, LoginActivity.class), HRM.REQ_CODE_LOGIN);
 		}
 	}
 
@@ -49,30 +40,30 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(Activity.RESULT_OK == resultCode) {
+			switch(requestCode) {
+				case HRM.REQ_CODE_LOGIN:
+					// TODO: 顯示功能選單 (或直接跳到任務列表)
+					break;
+			}
+		} else {
+			// login failed, quit app.
+			this.finish();
+		}
+	}
 
 	public void general() {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				DefaultHttpClient httpClient = HRMHttpClientFactory.createClient();
-				
-				HttpPost request = new HttpPost(REST.SERVER_URL + REST.LOGIN_PATH);
-				List<NameValuePair> form = new ArrayList<NameValuePair>();
-				form.add(new BasicNameValuePair(REST.KEY_FORM_USERNAME, "benny"));
-				form.add(new BasicNameValuePair(REST.KEY_FORM_MIMA, "123456"));
-
-				try {
-					request.setEntity(new UrlEncodedFormEntity(form, HTTP.UTF_8));
-					HttpResponse response = httpClient.execute(request);
-					List<Cookie> cookies = httpClient.getCookieStore().getCookies();
-					for(Cookie cookie : cookies) {
-						Log.i(this.getClass().getName(), cookie.getValue());
-					}
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
+		
+	}
+	
+	protected void processViews() {
+		
+	}
+	
+	protected void processActions() {
+		
 	}
 }
