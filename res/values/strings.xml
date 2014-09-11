@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="empty"></string>
+    
     <string name="app_name">雲算圖</string>
     <string name="action_settings">設定</string>
     
@@ -8,7 +10,12 @@
     <string name="label_login_account">帳號</string>
     <string name="label_login_mima">密碼</string>
     <string name="label_login_remember">記住登入資訊</string>
+    <string name="label_login_go">登入</string>
+    <string name="label_login_cancel">退出</string>
+    <string name="label_login_ok">登入成功</string>
+    <string name="label_login_fail">登入失敗</string>
     
     <string name="desc_logo_hrm">雲算圖行動版</string>
+    <string name="desc_preference">設定</string>
     
 </resources>

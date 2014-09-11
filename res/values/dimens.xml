@@ -6,6 +6,12 @@
     
     <dimen name="default_padding">6dp</dimen>
     <dimen name="default_margin">2dp</dimen>
-    <dimen name="title_txt_size">24sp</dimen>
+    <dimen name="txt_size_large">24sp</dimen>
+    <dimen name="txt_size_medium">20sp</dimen>
+    <dimen name="txt_size_small">16sp</dimen>
+    
+    <dimen name="login_top_margin">30dp</dimen>
+    <dimen name="login_left_margin">30dp</dimen>
+    <dimen name="login_right_margin">30dp</dimen>
 
 </resources>

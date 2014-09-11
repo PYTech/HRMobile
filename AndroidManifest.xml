@@ -27,8 +27,7 @@
         
         <activity
             android:name="com.pytech.hrm.activities.LoginActivity"
-            android:label="@string/title_login"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:label="@string/title_login" >
         </activity>
         
     </application>
