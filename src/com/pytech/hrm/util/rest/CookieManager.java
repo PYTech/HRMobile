@@ -13,7 +13,6 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
@@ -35,7 +34,7 @@ public class CookieManager {
 		HttpResponse response = httpClient.execute(request);
 
 		// Extract login status from response entity.
-		String responseContent = EntityUtils.getContentCharSet(response.getEntity());
+		String responseContent = RestManager.getEntityAsString(response);
 		Log.d(CookieManager.class.getName(), String.format("Get response[%s] for login request from web server.", responseContent));
 		LoginStatus loginStatus = JsonConverter.convertFromJson(LoginStatus.class, responseContent);
 

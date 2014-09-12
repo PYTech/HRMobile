@@ -50,7 +50,7 @@ public class MainActivity extends HRMActivity {
 					break;
 			}
 		} else {
-			// login failed, quit app.
+			// TODO: 顯示是否確認退出的窗格
 			this.finish();
 		}
 	}
