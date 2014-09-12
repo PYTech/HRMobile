@@ -24,12 +24,16 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.pytech.hrm.util.constants.HRM;
+
 public class HRMHttpClientFactory extends SSLSocketFactory {
-	SSLContext mSSLContext = SSLContext.getInstance("TLS");
+	private SSLContext mSSLContext = SSLContext.getInstance("TLS");
+	private static DefaultHttpClient client;
 
 	@Override
 	public Socket createSocket() throws IOException {
@@ -62,37 +66,42 @@ public class HRMHttpClientFactory extends SSLSocketFactory {
 		mSSLContext.init(null, new TrustManager[] { mTrustManager }, null);
 	}
 
-	public static DefaultHttpClient createClient() {
-		try {
-			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-			trustStore.load(null, null);
-
-			SSLSocketFactory mSSLSocketFactory = new HRMHttpClientFactory(trustStore);
-			mSSLSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-			HttpParams params = new BasicHttpParams();
-			HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-			HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-
-			SchemeRegistry registry = new SchemeRegistry();
-			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-			registry.register(new Scheme("https", mSSLSocketFactory, 443));
-
-			ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-			return new DefaultHttpClient(ccm, params);
-		} catch(KeyStoreException e) {
-			e.printStackTrace();
-		} catch(NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch(CertificateException e) {
-			e.printStackTrace();
-		} catch(IOException e) {
-			e.printStackTrace();
-		} catch(KeyManagementException e) {
-			e.printStackTrace();
-		} catch(UnrecoverableKeyException e) {
-			e.printStackTrace();
+	public static synchronized DefaultHttpClient createClient() {
+		if(client == null) {
+			try {
+				KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+				trustStore.load(null, null);
+	
+				SSLSocketFactory mSSLSocketFactory = new HRMHttpClientFactory(trustStore);
+				mSSLSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+	
+				HttpParams params = new BasicHttpParams();
+				HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+				HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
+				HttpConnectionParams.setConnectionTimeout(params, HRM.REST_CONNECT_TIMEOUT);
+				HttpConnectionParams.setSoTimeout(params, HRM.REST_SOCKET_TIMEOUT);
+	
+				SchemeRegistry registry = new SchemeRegistry();
+				registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+				registry.register(new Scheme("https", mSSLSocketFactory, 443));
+	
+				ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
+				client = new DefaultHttpClient(ccm, params);
+			} catch(KeyStoreException e) {
+				e.printStackTrace();
+			} catch(NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch(CertificateException e) {
+				e.printStackTrace();
+			} catch(IOException e) {
+				e.printStackTrace();
+			} catch(KeyManagementException e) {
+				e.printStackTrace();
+			} catch(UnrecoverableKeyException e) {
+				e.printStackTrace();
+			}
+			client = new DefaultHttpClient();
 		}
-		return new DefaultHttpClient();
+		return client;
 	}
 }

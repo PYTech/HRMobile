@@ -7,9 +7,11 @@ import org.apache.http.auth.AuthenticationException;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.pytech.hrm.R;
+import com.pytech.hrm.events.LoginFailEvent;
 import com.pytech.hrm.events.LoginSuccessEvent;
 import com.pytech.hrm.models.user.UserVO;
 import com.pytech.hrm.util.constants.HRM;
@@ -38,16 +40,17 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 	@Override
 	protected String doInBackground(UserVO... params) {
 		UserVO userVO = params[0];
+		String result = HRM.RESULT_OK;
 		try {
 			RestManager.login(userVO.getId(), userVO.getPassword());
 		} catch(AuthenticationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(LoginTask.class.getName(), String.format("Login task for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
+			result = HRM.RESULT_LOGIN_FAIL_AUTH;
 		} catch(IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(LoginTask.class.getName(), String.format("Login task for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
+			result = HRM.RESULT_CONN_FAIL;
 		}
-		return HRM.RESULT_OK;
+		return result;
 	}
 
 	@Override
@@ -61,7 +64,8 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 		if(HRM.RESULT_OK.equals(result)) {
 			Toast.makeText(this.mContext, this.mContext.getString(R.string.msg_login_ok), Toast.LENGTH_SHORT).show();
 			EventBus.getDefault().post(new LoginSuccessEvent());
+		} else {
+			EventBus.getDefault().post(new LoginFailEvent(result));
 		}
 	}
-
 }

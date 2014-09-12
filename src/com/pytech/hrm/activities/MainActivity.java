@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.pytech.hrm.R;
 import com.pytech.hrm.util.constants.HRM;
+import com.pytech.hrm.util.rest.RestManager;
 
 public class MainActivity extends HRMActivity {
 
@@ -22,7 +23,7 @@ public class MainActivity extends HRMActivity {
 
 		// TODO: 判斷是否設定為自動登入，如果未設定或是登入失敗，才顯示登入畫面
 		if(true) {
-			startActivityForResult(new Intent(this, LoginActivity.class), HRM.REQ_CODE_LOGIN);
+			this.gotoLoginPage();
 		}
 	}
 
@@ -34,9 +35,13 @@ public class MainActivity extends HRMActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if(id == R.id.action_settings) {
-			return true;
+		switch(item.getItemId()) {
+			case R.id.item_logout:
+				RestManager.cleanCookies();
+				this.gotoLoginPage();
+				break;
+			case R.id.item_settings:
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -54,7 +59,7 @@ public class MainActivity extends HRMActivity {
 			this.finish();
 		}
 	}
-
+	
 	public void general() {
 		
 	}
@@ -65,5 +70,13 @@ public class MainActivity extends HRMActivity {
 	
 	protected void processActions() {
 		
+	}
+	
+	protected void initializeMenu(Menu menu) {
+		
+	}
+	
+	protected void gotoLoginPage() {
+		startActivityForResult(new Intent(this, LoginActivity.class), HRM.REQ_CODE_LOGIN);
 	}
 }
