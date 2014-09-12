@@ -29,7 +29,7 @@ public class LoginActivity extends HRMActivity {
 		
 		this.processViews();
 		
-		EventBus.getDefault().unregister(this);
+		EventBus.getDefault().register(this);
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class LoginActivity extends HRMActivity {
 		}
 	}
 	
-	public void loginSuccess(LoginSuccessEvent event) {
+	public void onEventMainThread(LoginSuccessEvent event) {
 		Intent intent = this.getIntent();
 		this.setResult(Activity.RESULT_OK, intent);
 		this.finish();

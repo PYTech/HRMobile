@@ -40,7 +40,7 @@ public class CookieManager {
 		LoginStatus loginStatus = JsonConverter.convertFromJson(LoginStatus.class, responseContent);
 
 		// Check login successful.
-		if(loginStatus.isSuccess()) {
+		if(loginStatus != null && loginStatus.isSuccess()) {
 			cookieList = httpClient.getCookieStore().getCookies();
 		} else {
 			// Check login fail reason.

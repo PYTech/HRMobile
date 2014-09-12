@@ -57,11 +57,11 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
+		this.mProgressDialog.dismiss();
 		if(HRM.RESULT_OK.equals(result)) {
 			Toast.makeText(this.mContext, this.mContext.getString(R.string.msg_login_ok), Toast.LENGTH_SHORT).show();
 			EventBus.getDefault().post(new LoginSuccessEvent());
 		}
-		this.mProgressDialog.dismiss();
 	}
 
 }
