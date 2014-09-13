@@ -16,4 +16,7 @@ public class HRM {
 	// Preference keys.
 	public static final String KEY_AUTO_LOGIN_ACCOUNT = "AUTO_USERNAME";
 	public static final String KEY_AUTO_LOGIN_PASSWORD = "AUTO_MIMA";
+	
+	public static final String DEFAULT_ENCODING = "UTF-8";
+	public static final String ANNONYMOUS = "annonymous";
 }

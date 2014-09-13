@@ -4,6 +4,10 @@ public class REST {
 
 	// Path variables
 	public static final String SERVER_URL = "https://210.61.119.24/HIRENDER";
+	public static final String TYPE_APP_JSON = "application/json";
+	
+	// Headers.
+	public static final String HEADER_CONTENT_TYPE_KEY = "Content-type";
 
 	/* User */
 	public static final String FORGOT_USER_ID_PATH = SERVER_URL + "/recoverId";
@@ -64,4 +68,7 @@ public class REST {
 	
 	// Help link
 	public static final String PATH_HELP_CENTER = "/download";
+	
+	// Messages.
+	public static final String MSG_AUTH_EXPIRED = "view.auth.expireSession.changepw.explain";
 }

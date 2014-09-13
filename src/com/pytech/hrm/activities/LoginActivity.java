@@ -87,6 +87,10 @@ public class LoginActivity extends HRMActivity {
 		alert.setTitle(this.getString(R.string.msg_login_fail));
 		alert.setMessage(errMsg);
 		alert.show();
+		
+		// Clear previous input content.
+		this.usernameInput.setText(StringUtils.EMPTY);
+		this.passwordInput.setText(StringUtils.EMPTY);
 	}
 	
 	public void helpMe(View view) {

@@ -2,8 +2,6 @@ package com.pytech.hrm.tasks;
 
 import java.io.IOException;
 
-import org.apache.http.auth.AuthenticationException;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -13,6 +11,7 @@ import android.widget.Toast;
 import com.pytech.hrm.R;
 import com.pytech.hrm.events.LoginFailEvent;
 import com.pytech.hrm.events.LoginSuccessEvent;
+import com.pytech.hrm.exception.AuthException;
 import com.pytech.hrm.models.user.UserVO;
 import com.pytech.hrm.util.constants.HRM;
 import com.pytech.hrm.util.rest.RestManager;
@@ -43,12 +42,16 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 		String result = HRM.RESULT_OK;
 		try {
 			RestManager.login(userVO.getId(), userVO.getPassword());
-		} catch(AuthenticationException e) {
-			Log.e(LoginTask.class.getName(), String.format("Login task for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
+		} catch(AuthException e) {
+			Log.e(LoginTask.class.getName(), String.format("Login task auth failed for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
 			result = HRM.RESULT_LOGIN_FAIL_AUTH;
 		} catch(IOException e) {
 			Log.e(LoginTask.class.getName(), String.format("Login task for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
 			result = HRM.RESULT_CONN_FAIL;
+		} finally {
+			if(this.mProgressDialog.isShowing()) {
+				this.mProgressDialog.dismiss();
+			}
 		}
 		return result;
 	}
@@ -60,7 +63,6 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		this.mProgressDialog.dismiss();
 		if(HRM.RESULT_OK.equals(result)) {
 			Toast.makeText(this.mContext, this.mContext.getString(R.string.msg_login_ok), Toast.LENGTH_SHORT).show();
 			EventBus.getDefault().post(new LoginSuccessEvent());

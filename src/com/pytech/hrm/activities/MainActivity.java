@@ -61,7 +61,13 @@ public class MainActivity extends HRMActivity {
 	}
 	
 	public void general() {
-		
+		this.missionManager.getAllMissions(this);
+		try {
+			Thread.sleep(500000);
+		} catch(InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	protected void processViews() {

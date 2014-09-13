@@ -1,6 +1,8 @@
 package com.pytech.hrm.tasks;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -11,7 +13,13 @@ import android.widget.Toast;
 import com.pytech.hrm.R;
 import com.pytech.hrm.events.GetMissionDoneEvent;
 import com.pytech.hrm.events.GetMissionFailEvent;
+import com.pytech.hrm.exception.AuthException;
 import com.pytech.hrm.models.mission.Mission;
+import com.pytech.hrm.models.rest.ParamPair;
+import com.pytech.hrm.models.rest.RestTask;
+import com.pytech.hrm.util.constants.REST;
+import com.pytech.hrm.util.rest.JsonConverter;
+import com.pytech.hrm.util.rest.RestManager;
 
 import de.greenrobot.event.EventBus;
 
@@ -36,7 +44,26 @@ public class MissionTask extends AsyncTask<Void, Integer, Integer> {
 
 	@Override
 	protected Integer doInBackground(Void... params) {
-		// TODO Auto-generated method stub
+		try {
+			List<ParamPair> paramPairs = new LinkedList<ParamPair>();
+			paramPairs.add(new ParamPair(REST.PARAM_USER_ID, RestManager.getUserId()));
+			paramPairs.add(new ParamPair(REST.PARAM_FILTER_KEY, REST.PARAM_FILTER_MISSION_LIST_RUNNING));
+			RestTask restTask = RestManager.sendHttpGetRequest(REST.MISSION_PATH, REST.TYPE_APP_JSON, paramPairs);
+			List<Mission> missions = JsonConverter.convertFromObjects(Mission.class, restTask);
+		} catch(IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch(IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch(AuthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(this.mProgressDialog.isShowing()) {
+				this.mProgressDialog.dismiss();
+			}
+		}
 		return null;
 	}
 
@@ -47,7 +74,6 @@ public class MissionTask extends AsyncTask<Void, Integer, Integer> {
 
 	@Override
 	protected void onPostExecute(Integer result) {
-		this.mProgressDialog.dismiss();
 		if(result != null && result >= 0) {
 			String resultMsg = this.mContext.getString(R.string.msg_mission_get_done, result);
 			Toast.makeText(this.mContext, resultMsg, Toast.LENGTH_SHORT).show();

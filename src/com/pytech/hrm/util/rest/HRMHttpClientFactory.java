@@ -87,20 +87,11 @@ public class HRMHttpClientFactory extends SSLSocketFactory {
 	
 				ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
 				client = new DefaultHttpClient(ccm, params);
-			} catch(KeyStoreException e) {
+			} catch(Exception e) {
+				// If preparation job failed -> create default http client instead.
 				e.printStackTrace();
-			} catch(NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			} catch(CertificateException e) {
-				e.printStackTrace();
-			} catch(IOException e) {
-				e.printStackTrace();
-			} catch(KeyManagementException e) {
-				e.printStackTrace();
-			} catch(UnrecoverableKeyException e) {
-				e.printStackTrace();
-			}
-			client = new DefaultHttpClient();
+				client = new DefaultHttpClient();
+			} 
 		}
 		return client;
 	}

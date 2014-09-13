@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.auth.AuthenticationException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
@@ -16,12 +15,13 @@ import org.apache.http.protocol.HTTP;
 
 import android.util.Log;
 
+import com.pytech.hrm.exception.AuthException;
 import com.pytech.hrm.exception.ErrorKey;
 import com.pytech.hrm.models.rest.LoginStatus;
 import com.pytech.hrm.util.constants.REST;
 
 public class CookieManager {
-	public static synchronized List<Cookie> getCookies(String username, String password) throws IOException, AuthenticationException {
+	public static synchronized List<Cookie> getCookies(String username, String password) throws IOException, AuthException {
 		List<Cookie> cookieList;
 		DefaultHttpClient httpClient = HRMHttpClientFactory.createClient();
 
@@ -37,6 +37,9 @@ public class CookieManager {
 		String responseContent = RestManager.getEntityAsString(response);
 		Log.d(CookieManager.class.getName(), String.format("Get response[%s] for login request from web server.", responseContent));
 		LoginStatus loginStatus = JsonConverter.convertFromJson(LoginStatus.class, responseContent);
+		if(loginStatus == null) {
+			throw new AuthException();
+		}
 
 		// Check login successful.
 		if(loginStatus != null && loginStatus.isSuccess()) {
@@ -50,7 +53,7 @@ public class CookieManager {
 			} catch(Exception e) {
 				key = ErrorKey.U004;
 			}
-			throw new AuthenticationException(key.getAnnotation());
+			throw new AuthException(key.getAnnotation());
 		}
 		return cookieList;
 	}
