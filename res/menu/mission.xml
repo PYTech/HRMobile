@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+	<item
+        android:id="@+id/act_refresh"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/label_mission_act_refresh"/>
+	
+	<item
+        android:id="@+id/act_pause"
+        android:orderInCategory="101"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_pause"
+        android:title="@string/label_mission_act_pause"/>
+	
+	<item
+        android:id="@+id/act_resume"
+        android:orderInCategory="102"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_play"
+        android:title="@string/label_mission_act_resume"/>
+	
+	<item
+        android:id="@+id/act_cancel"
+        android:orderInCategory="103"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_stop"
+        android:title="@string/label_mission_act_cancel"/>
+	
+	<item
+        android:id="@+id/act_restart"
+        android:orderInCategory="104"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_replay"
+        android:title="@string/label_mission_act_restart"/>
+    
+</menu>

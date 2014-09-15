@@ -2,13 +2,7 @@ package com.pytech.hrm.adapters;
 
 import java.util.List;
 
-import com.pytech.hrm.R;
-import com.pytech.hrm.models.mission.Mission;
-import com.pytech.hrm.util.TimeUtils;
-import com.pytech.hrm.util.constants.Colors;
-import com.pytech.hrm.util.constants.HRM;
-import com.pytech.hrm.util.constants.SoftwareKey;
-import com.pytech.hrm.util.constants.enums.MissionState;
+import org.apache.commons.lang3.StringUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,10 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.pytech.hrm.R;
+import com.pytech.hrm.models.mission.Mission;
+import com.pytech.hrm.util.TimeUtils;
+import com.pytech.hrm.util.constants.Colors;
+import com.pytech.hrm.util.constants.HRM;
+import com.pytech.hrm.util.constants.SoftwareKey;
+import com.pytech.hrm.util.constants.enums.MissionState;
 
 public class MissionAdapter extends ArrayAdapter<Mission> {
 	private int resource;
@@ -30,48 +34,40 @@ public class MissionAdapter extends ArrayAdapter<Mission> {
 		this.resource = resource;
 		this.missionList = missions;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LinearLayout missionView;
-		Mission mission = this.get(position);
-		
+		final Mission mission = this.get(position);
+
 		if(convertView == null) {
 			missionView = new LinearLayout(this.getContext());
 			LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			inflater.inflate(this.resource, missionView, true);		
+			inflater.inflate(this.resource, missionView, true);
 		} else {
 			missionView = (LinearLayout) convertView;
 		}
-		
+
 		// 讀取任務資訊相關欄位
 		CheckBox selected = (CheckBox) missionView.findViewById(R.id.selected_item);
 		ImageView softwareIcon = (ImageView) missionView.findViewById(R.id.type_software);
 		TextView missionTitle = (TextView) missionView.findViewById(R.id.title_text);
 		TextView missionInfo = (TextView) missionView.findViewById(R.id.info_text);
 		ProgressBar progress = (ProgressBar) missionView.findViewById(R.id.progress);
-		
+
 		// 設定算圖軟體圖示
 		softwareIcon.setImageResource(SoftwareKey.convertIconImage(mission.getProduct()));
-		
+
 		// 設定任務名稱
 		missionTitle.setText(mission.getName());
-		
+
 		// 設定是否已選擇
 		selected.setChecked(mission.isSelected());
-		
-		// 設定已執行時間，狀態
+
+		// 設定執行進度與背景顏色
 		MissionState state = mission.getState();
 		long start = mission.getTimeStart();
-		String durationStr = HRM.TIME_NOT_STARTED;
-		if(start > 0) {
-			long duration = System.currentTimeMillis() - start;
-			durationStr = TimeUtils.toDurationString(duration);
-		} 
-		String infoStr = this.getContext().getString(R.string.label_mission_info, durationStr, state.getState());
-		missionInfo.setText(infoStr);
-		
-		// 設定執行進度與背景顏色
+		String durationStr = this.getContext().getString(R.string.label_duration_unknown);
 		switch(state) {
 			case RDY:
 			case WD:
@@ -89,11 +85,15 @@ public class MissionAdapter extends ArrayAdapter<Mission> {
 				missionView.setBackgroundColor(Colors.RUNNING.parseColor());
 				progress.setVisibility(View.VISIBLE);
 				progress.setProgress((int) (mission.getProgress() * HRM.PROGRESS_MAX));
+				long duration = System.currentTimeMillis() - start;
+				durationStr = TimeUtils.toDurationString(this.getContext(), duration);
 				break;
 			case DON:
 				missionView.setBackgroundColor(Colors.DONE.parseColor());
 				progress.setVisibility(View.VISIBLE);
 				progress.setProgress(HRM.PROGRESS_MAX);
+				duration = mission.getTimeDone() - start;
+				durationStr = TimeUtils.toDurationString(this.getContext(), duration);
 				break;
 			case ERR:
 			case ASSEMBLE_ERR:
@@ -117,6 +117,20 @@ public class MissionAdapter extends ArrayAdapter<Mission> {
 				progress.setVisibility(View.GONE);
 				break;
 		}
+
+		// 設定已執行時間，狀態
+		String formatedString = this.getContext().getString(R.string.label_mission_info, StringUtils.EMPTY);
+		missionInfo.setText(String.format(formatedString, durationStr, state.toString()));
+
+		// 為 checkbox 附加 listener
+		OnCheckedChangeListener listener = new OnCheckedChangeListener() {			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				mission.setSelected(isChecked);
+			}
+		};
+		selected.setOnCheckedChangeListener(listener);
+		
 		return missionView;
 	}
 
@@ -126,7 +140,7 @@ public class MissionAdapter extends ArrayAdapter<Mission> {
 			this.notifyDataSetChanged();
 		}
 	}
-	
+
 	public Mission get(int index) {
 		return this.missionList.get(index);
 	}

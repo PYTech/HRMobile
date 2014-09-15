@@ -61,6 +61,7 @@ public class RestManager {
 	
 	public static void cleanCookies() {
 		getClient().getCookieStore().clear();
+		cookieList = null;
 		userId = null;
 	}
 	

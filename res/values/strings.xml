@@ -16,7 +16,15 @@
     <string name="label_logout">登出</string>
     
     <string name="title_mission">任務列表</string>
-    <string name="label_mission_info">已執行：[%%s]  目前狀態：[2%%s]</string>
+    <string name="label_mission_info">已執行:%%s / 狀態:%%s</string>
+    <string name="label_mission_act_refresh">更新列表</string>
+    <string name="label_mission_act_cancel">取消任務</string>
+    <string name="label_mission_act_pause">暫停任務</string>
+    <string name="label_mission_act_resume">繼續任務</string>
+    <string name="label_mission_act_restart">重啟任務</string>
+    <string name="label_duration">%%02d時 %%02d分 %%02d秒 </string>
+    <string name="label_duration_no_hour">%%02d分 %%02d秒 </string>
+    <string name="label_duration_unknown"> - </string>
     
     <string name="msg_conn_fail">連線異常，請稍後再試</string>
     <string name="msg_login_ok">登入成功</string>
@@ -34,10 +42,6 @@
     
     <string name="label_software">算圖軟體種類</string>
     <string name="label_select">選取</string>
-    
-    <string name="label_mission_name">任務名稱：</string>
-    <string name="label_mission_last_update">最後更新：</string>
-    <string name="label_mission_progress">執行進度：</string>
     
     <string name="desc_logo_hrm">雲算圖行動版</string>
     <string name="desc_preference">設定</string>

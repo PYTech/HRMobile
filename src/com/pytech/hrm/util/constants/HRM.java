@@ -24,9 +24,5 @@ public class HRM {
 	
 	public static final String DEFAULT_ENCODING = "UTF-8";
 	public static final String ANNONYMOUS = "annonymous";
-	public static final String TIME_NOT_STARTED = "-";
 	public static final int PROGRESS_MAX = 100;
-	
-	public static final String KEY_MISSION_INFO_DURATION = "DURATION";
-	public static final String KEY_MISSION_INFO_STATE = "STATE";
 }

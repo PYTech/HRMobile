@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.pytech.hrm.R;
@@ -46,7 +48,32 @@ public class MissionActivity extends HRMActivity {
 		EventBus.getDefault().unregister(this);
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.mission, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+			case R.id.act_refresh:
+				this.missionManager.getAllMissions(this);
+				break;
+			case R.id.act_pause:
+				break;
+			case R.id.act_resume:
+				break;
+			case R.id.act_cancel:
+				break;
+			case R.id.act_restart:
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 	public void onEventMainThread(GetMissionDoneEvent event) {
+		this.missionList.clear();
 		this.missionList.addAll(event.getMissionList());
 		this.missionAdapter.notifyDataSetChanged();
 	}
