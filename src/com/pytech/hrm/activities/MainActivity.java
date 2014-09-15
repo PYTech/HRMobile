@@ -16,15 +16,18 @@ public class MainActivity extends HRMActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		// Initializations.
-		this.processViews();
-		this.processActions();
+
+		this.initialize();
 
 		// TODO: 判斷是否設定為自動登入，如果未設定或是登入失敗，才顯示登入畫面
 		if(true) {
 			this.gotoLoginPage();
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 	}
 
 	@Override
@@ -45,44 +48,56 @@ public class MainActivity extends HRMActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(Activity.RESULT_OK == resultCode) {
 			switch(requestCode) {
 				case HRM.REQ_CODE_LOGIN:
 					// TODO: 顯示功能選單 (目前先直接跳到任務列表)
+					this.gotoMissionPage();
+					break;
+				case HRM.REQ_CODE_MISSION:
+					// TODO:
 					break;
 			}
-		} else {
+		} else if(Activity.RESULT_CANCELED == resultCode) {
 			// TODO: 顯示是否確認退出的窗格
 			this.finish();
+		} else {
+			// Do nothing.
 		}
 	}
-	
+
 	public void general() {
 		this.missionManager.getAllMissions(this);
 		try {
-			Thread.sleep(500000);
+			Thread.sleep(10000);
 		} catch(InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
+	@Override
 	protected void processViews() {
-		
+
 	}
-	
-	protected void processActions() {
-		
+
+	@Override
+	protected void processControllers() {
+
 	}
-	
+
 	protected void initializeMenu(Menu menu) {
-		
+
 	}
-	
-	protected void gotoLoginPage() {
-		startActivityForResult(new Intent(this, LoginActivity.class), HRM.REQ_CODE_LOGIN);
+
+	private void gotoLoginPage() {
+		this.startActivityForResult(new Intent(this, LoginActivity.class), HRM.REQ_CODE_LOGIN);
+	}
+
+	private void gotoMissionPage() {
+		this.startActivityForResult(new Intent(this, MissionActivity.class), HRM.REQ_CODE_MISSION);
 	}
 }

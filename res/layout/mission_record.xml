@@ -40,9 +40,9 @@
             android:layout_weight="1"
             android:gravity="center_vertical" />
  
-        <!-- 最後修改時間 -->
+        <!-- 任務資訊 -->
         <TextView 
-            android:id="@+id/date_text"
+            android:id="@+id/info_text"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -55,6 +55,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:max="100"
             style="?android:attr/progressBarStyleHorizontal" />
  
     </LinearLayout>

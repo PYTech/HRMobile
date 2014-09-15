@@ -60,7 +60,7 @@ public class RestManager {
 	}
 	
 	public static void cleanCookies() {
-		cookieList = null;
+		getClient().getCookieStore().clear();
 		userId = null;
 	}
 	
@@ -77,8 +77,12 @@ public class RestManager {
 		}
 	}
 	
-	protected static RestTask sendHttpRequest(ReqMethod method, String url, String type, Object params) throws IOException, AuthException, IllegalStateException {
-		DefaultHttpClient httpClient = HRMHttpClientFactory.createClient();
+	protected synchronized static DefaultHttpClient getClient() {
+		return HRMHttpClientFactory.getClient();
+	}
+	
+	protected static RestTask sendHttpRequest(ReqMethod method, String url, String type, Object params) throws IOException, AuthException {
+		DefaultHttpClient httpClient = getClient();
 		HttpRequestBase request = null;
 		
 		switch(method) {
@@ -109,7 +113,7 @@ public class RestManager {
 		return processResponse(response);
 	}
 
-	protected static RestTask processResponse(HttpResponse response) throws IllegalStateException, IOException, AuthException {
+	protected static RestTask processResponse(HttpResponse response) throws IOException, AuthException {
 		// Check status code.
 		StatusLine status = response.getStatusLine();
 		if(HttpStatus.SC_UNAUTHORIZED == status.getStatusCode()) {

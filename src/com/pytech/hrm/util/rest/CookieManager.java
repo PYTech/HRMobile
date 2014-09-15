@@ -23,7 +23,7 @@ import com.pytech.hrm.util.constants.REST;
 public class CookieManager {
 	public static synchronized List<Cookie> getCookies(String username, String password) throws IOException, AuthException {
 		List<Cookie> cookieList;
-		DefaultHttpClient httpClient = HRMHttpClientFactory.createClient();
+		DefaultHttpClient httpClient = HRMHttpClientFactory.getClient();
 
 		List<NameValuePair> form = new ArrayList<NameValuePair>();
 		form.add(new BasicNameValuePair(REST.KEY_FORM_USERNAME, username));

@@ -33,7 +33,7 @@ public class LoginActivity extends HRMActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		this.processViews();
+		this.initialize();
 		
 		EventBus.getDefault().register(this);
 	}
@@ -69,9 +69,9 @@ public class LoginActivity extends HRMActivity {
 	public void onEventMainThread(LoginFailEvent event) {
 		String errReason = event.getReason();
 		String errMsg = null;
-		if(StringUtils.equals(errReason, HRM.RESULT_LOGIN_FAIL_AUTH)) {
+		if(StringUtils.equals(errReason, HRM.TASK_RESULT_AUTH_FAIL)) {
 			errMsg = this.getString(R.string.msg_login_fail_auth);
-		} else if(StringUtils.equals(errReason, HRM.RESULT_CONN_FAIL)) {
+		} else if(StringUtils.equals(errReason, HRM.TASK_RESULT_CONN_FAIL)) {
 			errMsg = this.getString(R.string.msg_conn_fail);
 		} else {
 			// Should NOT be here...
@@ -106,9 +106,15 @@ public class LoginActivity extends HRMActivity {
 		this.finish();
 	}
 	
-	private void processViews() {
+	@Override
+	protected void processViews() {
 		this.usernameInput = (EditText) this.findViewById(R.id.input_account);
 		this.passwordInput = (EditText) this.findViewById(R.id.input_password);
 		this.remember = (ToggleButton) this.findViewById(R.id.toggle_remember_me);
+	}
+
+	@Override
+	protected void processControllers() {
+		
 	}
 }

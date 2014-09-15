@@ -14,6 +14,10 @@
     <string name="label_login_remember">記住登入資訊</string>
     <string name="label_login_go">登入</string>
     <string name="label_logout">登出</string>
+    
+    <string name="title_mission">任務列表</string>
+    <string name="label_mission_info">已執行：[%%s]  目前狀態：[2%%s]</string>
+    
     <string name="msg_conn_fail">連線異常，請稍後再試</string>
     <string name="msg_login_ok">登入成功</string>
     <string name="msg_login_fail">登入失敗</string>

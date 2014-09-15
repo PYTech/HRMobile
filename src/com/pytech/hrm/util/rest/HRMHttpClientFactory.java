@@ -66,7 +66,7 @@ public class HRMHttpClientFactory extends SSLSocketFactory {
 		mSSLContext.init(null, new TrustManager[] { mTrustManager }, null);
 	}
 
-	public static synchronized DefaultHttpClient createClient() {
+	public static synchronized DefaultHttpClient getClient() {
 		if(client == null) {
 			try {
 				KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());

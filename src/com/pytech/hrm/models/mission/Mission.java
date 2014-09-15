@@ -17,7 +17,6 @@ import com.pytech.hrm.util.constants.enums.RenderMode;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-// don't convert empty value to json
 public class Mission implements Serializable {
 
 	private static final long serialVersionUID = -6636092398074084048L;
@@ -79,6 +78,8 @@ public class Mission implements Serializable {
 	private float averageFrameTime;
 	private float coreHours;
 	private float cost;
+	
+	private boolean selected;
 
 	// private Submission submission;
 
@@ -495,6 +496,14 @@ public class Mission implements Serializable {
 
 	public void setCost(float cost) {
 		this.cost = cost;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

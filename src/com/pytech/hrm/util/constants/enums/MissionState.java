@@ -1,10 +1,11 @@
 package com.pytech.hrm.util.constants.enums;
 
-
 //@JsonSerialize(using = MissionStateSerializer.class)
 public enum MissionState {//
-	RDY("Ready"), RUN("Running"), WD("Waiting Dependencies"), DON("Done"), ERR("Error"), SKP("Skipped"),
-	PAUSE("Pause"),CANCELING("Canceling"),HOLDING("Holding"),WT("Waiting Time"),OFF("Offline"),WDP("Waiting Depedencies"),WTM("Waiting Time"),GM("Generating Move"),CMP("Compressing"),SYS_HOLDING("System Holding"),SYS_PAUSE("System Pause"),MOVGEN("Move Generating"),MOVGEN_ERR("Move Generation Fail");
+	RDY("Ready"), RUN("Running"), WD("Waiting Dependencies"), DON("Done"), ERR("Error"), SKP("Skipped"), PAUSE("Pause"), CANCELING("Canceling"), HOLDING(
+			"Holding"), WT("Waiting Time"), OFF("Offline"), WDP("Waiting Depedencies"), WTM("Waiting Time"), GM("Generating Move"), CMP("Compressing"), SYS_HOLDING(
+			"System Holding"), SYS_PAUSE("System Pause"), MOVGEN("Move Generating"), MOVGEN_ERR("Move Generation Fail"), ASSEMBLE("Assembling"), ASSEMBLE_ERR(
+			"Assemble Fail");
 
 	private String state;
 
@@ -15,9 +16,9 @@ public enum MissionState {//
 	public String getState() {
 		return this.state;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return this.state;
 	}
 

@@ -39,15 +39,15 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 	@Override
 	protected String doInBackground(UserVO... params) {
 		UserVO userVO = params[0];
-		String result = HRM.RESULT_OK;
+		String result = HRM.TASK_RESULT_OK;
 		try {
 			RestManager.login(userVO.getId(), userVO.getPassword());
 		} catch(AuthException e) {
 			Log.e(LoginTask.class.getName(), String.format("Login task auth failed for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
-			result = HRM.RESULT_LOGIN_FAIL_AUTH;
+			result = HRM.TASK_RESULT_AUTH_FAIL;
 		} catch(IOException e) {
 			Log.e(LoginTask.class.getName(), String.format("Login task for username[%s] failed, reason:[%s]", userVO.getId(), e.getMessage()));
-			result = HRM.RESULT_CONN_FAIL;
+			result = HRM.TASK_RESULT_CONN_FAIL;
 		} finally {
 			if(this.mProgressDialog.isShowing()) {
 				this.mProgressDialog.dismiss();
@@ -63,7 +63,7 @@ public class LoginTask extends AsyncTask<UserVO, Integer, String> {
 
 	@Override
 	protected void onPostExecute(String result) {
-		if(HRM.RESULT_OK.equals(result)) {
+		if(HRM.TASK_RESULT_OK.equals(result)) {
 			Toast.makeText(this.mContext, this.mContext.getString(R.string.msg_login_ok), Toast.LENGTH_SHORT).show();
 			EventBus.getDefault().post(new LoginSuccessEvent());
 		} else {

@@ -30,6 +30,11 @@
             android:label="@string/title_login" >
         </activity>
         
+        <activity
+            android:name="com.pytech.hrm.activities.MissionActivity"
+            android:label="@string/title_mission" >
+        </activity>
+        
     </application>
     
     
