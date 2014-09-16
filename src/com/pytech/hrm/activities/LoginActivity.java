@@ -3,8 +3,6 @@ package com.pytech.hrm.activities;
 import org.apache.commons.lang3.StringUtils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +16,7 @@ import com.pytech.hrm.R;
 import com.pytech.hrm.events.LoginFailEvent;
 import com.pytech.hrm.events.LoginSuccessEvent;
 import com.pytech.hrm.models.user.UserVO;
+import com.pytech.hrm.util.ModalUtils;
 import com.pytech.hrm.util.UIUtils;
 import com.pytech.hrm.util.constants.HRM;
 import com.pytech.hrm.util.constants.REST;
@@ -30,22 +29,17 @@ public class LoginActivity extends HRMActivity {
 	private ToggleButton remember;
 	private Button loginButton;
 	
-	private static boolean first = true;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
-		this.initialize();
-		
+		this.initialize();	
 		EventBus.getDefault().register(this);
 	}
 	
 	@Override
     protected void onDestroy() {
-        super.onDestroy();
-        
+        super.onDestroy();   
         EventBus.getDefault().unregister(this);
     }
 	
@@ -81,14 +75,7 @@ public class LoginActivity extends HRMActivity {
 			errMsg = this.getString(R.string.msg_conn_fail);
 		}
 		// Show alert dialog.
-		Builder alertBuilder = new Builder(this);
-		alertBuilder.setPositiveButton(android.R.string.ok, null);
-		AlertDialog alert = alertBuilder.create();
-		alert.setCancelable(true);
-		alert.setCanceledOnTouchOutside(false);
-		alert.setTitle(this.getString(R.string.msg_login_fail));
-		alert.setMessage(errMsg);
-		alert.show();
+		ModalUtils.showAlarm(this, this.getString(R.string.msg_login_fail), errMsg, null);
 		
 		// Clear previous input content.
 		this.usernameInput.setText(StringUtils.EMPTY);
@@ -102,10 +89,7 @@ public class LoginActivity extends HRMActivity {
 	
 	@Override
 	public void onBackPressed() {
-		// TODO: show alarm dialog: are you sure to quit?
-		Intent intent = this.getIntent();
-		this.setResult(Activity.RESULT_CANCELED, intent);
-		this.finish();
+		this.exitApp();
 	}
 	
 	@Override
@@ -119,9 +103,10 @@ public class LoginActivity extends HRMActivity {
 		this.usernameInput.setText(localUser.getId());
 		this.passwordInput.setText(localUser.getPassword());
 		this.remember.setChecked(localUser.isAutoLogin());
-		if(localUser.isAutoLogin() && first) {
+		
+		boolean autoLogin = this.getIntent().getExtras().getBoolean(HRM.KEY_INTENT_AUTO_LOGIN);
+		if(localUser.isAutoLogin() && autoLogin) {
 			this.userManager.login(localUser.getId(), localUser.getPassword(), this);
-			first = false;
 		}
 	}
 

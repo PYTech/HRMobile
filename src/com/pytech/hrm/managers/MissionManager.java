@@ -1,13 +1,24 @@
 package com.pytech.hrm.managers;
 
+import java.util.List;
+
 import android.content.Context;
 
-import com.pytech.hrm.tasks.MissionTask;
+import com.pytech.hrm.models.mission.Mission;
+import com.pytech.hrm.tasks.GetAllMissionTask;
+import com.pytech.hrm.tasks.MissionActTask;
+import com.pytech.hrm.util.constants.enums.MissionAction;
 
 public class MissionManager {
-	public void getAllMissions(Context context) {
-		MissionTask missionTask = new MissionTask();
+	public void getAllMissions(Context context, boolean showLoading) {
+		GetAllMissionTask missionTask = new GetAllMissionTask(showLoading);
 		missionTask.setContext(context);
 		missionTask.execute();
+	}
+	
+	public void doMissionAction(Context context, MissionAction action, List<Mission> missionList) {
+		MissionActTask actTask = new MissionActTask(action);
+		actTask.setContext(context);
+		actTask.execute(missionList.toArray(new Mission[missionList.size()]));
 	}
 }

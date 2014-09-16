@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.pytech.hrm.R;
+import com.pytech.hrm.events.LoginRequiredEvent;
 import com.pytech.hrm.util.constants.HRM;
+
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends HRMActivity {
 
@@ -15,16 +17,22 @@ public class MainActivity extends HRMActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		this.initialize();
+		EventBus.getDefault().register(this);
 
 		// Page indirect.
-		this.gotoLoginPage();
+		this.gotoLoginPage(true);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 
 	@Override
@@ -34,36 +42,27 @@ public class MainActivity extends HRMActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-			case R.id.item_logout:
-				this.userManager.logout();
-				this.gotoLoginPage();
-				break;
-			case R.id.item_settings:
-				break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(Activity.RESULT_OK == resultCode) {
 			switch(requestCode) {
 				case HRM.REQ_CODE_LOGIN:
-					// TODO: 顯示功能選單 (目前先直接跳到任務列表)
+					// TODO: 暫定直接跳到任務列表
 					this.gotoMissionPage();
 					break;
 				case HRM.REQ_CODE_MISSION:
-					// TODO:
+					// TODO: 暫定直接結束 APP
+					this.exitApp();
 					break;
 			}
-		} else if(Activity.RESULT_CANCELED == resultCode) {
-			// TODO: 顯示是否確認退出的窗格
+		} else if(HRM.ACTIVITY_RESULT_GOBACK == resultCode) {
 			this.finish();
 		} else {
-			// Do nothing.
+			this.exitApp();
 		}
+	}
+	
+	public void onEventMainThread(LoginRequiredEvent event) {
+		this.gotoLoginPage(false);
 	}
 
 	public void general() {
@@ -84,8 +83,10 @@ public class MainActivity extends HRMActivity {
 
 	}
 
-	private void gotoLoginPage() {
-		this.startActivityForResult(new Intent(this, LoginActivity.class), HRM.REQ_CODE_LOGIN);
+	private void gotoLoginPage(boolean autoLogin) {
+		Intent intent = new Intent(this, LoginActivity.class);
+		intent.putExtra(HRM.KEY_INTENT_AUTO_LOGIN, autoLogin);
+		this.startActivityForResult(intent, HRM.REQ_CODE_LOGIN);
 	}
 
 	private void gotoMissionPage() {

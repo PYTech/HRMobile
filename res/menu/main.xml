@@ -1,15 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/item_logout"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/label_logout"/>
     
-    <item
-        android:id="@+id/item_settings"
-        android:orderInCategory="199"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
 
 </menu>

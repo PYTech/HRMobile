@@ -55,6 +55,7 @@ public class REST {
 	public static final String PARAM_OS_TYPE = "osType";
 	public static final String PARAM_TIME_INTERVAL_BEGIN = "start";
 	public static final String PARAM_TIME_INTERVAL_END = "end";
+	public static final String PARAM_ACTION = "action";
 
 	// Param filter variables
 	public static final String PARAM_FILTER_VALUE_SELF = "me";

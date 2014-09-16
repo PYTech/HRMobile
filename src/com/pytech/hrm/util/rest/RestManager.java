@@ -47,6 +47,10 @@ public class RestManager {
 		return sendHttpRequest(ReqMethod.POST, REST.SERVER_URL + path, type, jsonStr);
 	}
 	
+	public static RestTask sendHttpPutRequest(String path, String type, List<ParamPair> params) throws IOException, AuthException, IllegalStateException {
+		return sendHttpRequest(ReqMethod.PUT, REST.SERVER_URL + path, type, params);
+	}
+	
 	public static String getEntityAsString(HttpResponse response) throws IllegalStateException, IOException {
 		// Extract login status from response entity.
 		StringBuffer buffer = new StringBuffer();
@@ -98,11 +102,7 @@ public class RestManager {
 				((HttpPost) request).setEntity(entity);
 				break;
 			case PUT:
-				request = new HttpPut(url);
-				jsonStr = JsonConverter.toJson(params);
-				entity = new StringEntity(jsonStr);
-				entity.setContentType(type);
-				((HttpPut) request).setEntity(entity);
+				request = new HttpPut(genParmas(url, params));
 				break;
 			default:
 				throw new IllegalArgumentException(String.format("Method type[%s] current NOT supported! Please use GET or POST instead.", method));

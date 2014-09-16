@@ -4,9 +4,11 @@
     <string name="empty"></string>
     
     <string name="app_name">雲算圖</string>
-    <string name="action_settings">設定</string>
     <string name="about">這是 HiRender Android 手機版應用程式</string>
     <string name="version">版本: 1.0</string>
+    
+    <string name="app_exit_title">退出雲算圖</string>
+    <string name="app_exit_confirm">請問確定要退出雲算圖行動版嗎？</string>
     
     <string name="title_login">登入雲算圖</string>
     <string name="label_login_account">帳號</string>
@@ -22,17 +24,23 @@
     <string name="label_mission_act_pause">暫停任務</string>
     <string name="label_mission_act_resume">繼續任務</string>
     <string name="label_mission_act_restart">重啟任務</string>
+    <string name="label_act_settings">設定</string>
     <string name="label_duration">%%02d時 %%02d分 %%02d秒 </string>
     <string name="label_duration_no_hour">%%02d分 %%02d秒 </string>
     <string name="label_duration_unknown"> - </string>
     
     <string name="msg_conn_fail">連線異常，請稍後再試</string>
+    <string name="msg_fail_auth">身分認證失敗，請重新登入</string>
     <string name="msg_login_ok">登入成功</string>
     <string name="msg_login_fail">登入失敗</string>
     <string name="msg_login_progress">登入雲算圖中&#8230;</string>
     <string name="msg_login_fail_auth">帳號或密碼錯誤，請重新輸入</string>
     <string name="msg_mission_get_progress">取得任務列表中&#8230;</string>
     <string name="msg_mission_get_done">取得 %d 筆任務資訊</string>
+    <string name="msg_mission_get_fail">取得任務列表失敗</string>
+    <string name="msg_mission_act_progress">執行任務操作中&#8230;</string>
+    <string name="msg_mission_act_done">任務操作成功</string>
+    <string name="msg_mission_act_fail">任務操作失敗</string>
     
     <string name="label_menu_item_search">搜尋</string>
     <string name="label_menu_item_retry">重試</string>

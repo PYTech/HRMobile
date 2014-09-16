@@ -27,10 +27,15 @@ import com.pytech.hrm.util.rest.RestManager;
 
 import de.greenrobot.event.EventBus;
 
-public class MissionTask extends AsyncTask<Void, Integer, String> {
+public class GetAllMissionTask extends AsyncTask<Void, Integer, String> {
 	private Context mContext;
 	private ProgressDialog mProgressDialog;
 	private List<Mission> missionList = new ArrayList<Mission>();
+	private boolean showLoading = true;
+	
+	public GetAllMissionTask(boolean showLoading) {
+		this.showLoading = showLoading;
+	}
 
 	public void setContext(Context context) {
 		this.mContext = context;
@@ -39,11 +44,13 @@ public class MissionTask extends AsyncTask<Void, Integer, String> {
 	@Override
 	protected void onPreExecute() {
 		this.mProgressDialog = new ProgressDialog(this.mContext);
-		this.mProgressDialog.setMessage(this.mContext.getString(R.string.msg_mission_get_progress));
-		this.mProgressDialog.setIndeterminate(true);
-		this.mProgressDialog.setCancelable(true);
-		this.mProgressDialog.setCanceledOnTouchOutside(false);
-		this.mProgressDialog.show();
+		if(this.showLoading) {
+			this.mProgressDialog.setMessage(this.mContext.getString(R.string.msg_mission_get_progress));
+			this.mProgressDialog.setIndeterminate(true);
+			this.mProgressDialog.setCancelable(true);
+			this.mProgressDialog.setCanceledOnTouchOutside(false);
+			this.mProgressDialog.show();
+		}
 	}
 
 	@Override
@@ -87,8 +94,10 @@ public class MissionTask extends AsyncTask<Void, Integer, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		if(StringUtils.equals(HRM.TASK_RESULT_OK, result)) {
-			String resultMsg = this.mContext.getString(R.string.msg_mission_get_done, this.missionList.size());
-			Toast.makeText(this.mContext, resultMsg, Toast.LENGTH_SHORT).show();
+			if(this.showLoading) {
+				String resultMsg = this.mContext.getString(R.string.msg_mission_get_done, this.missionList.size());
+				Toast.makeText(this.mContext, resultMsg, Toast.LENGTH_SHORT).show();
+			}
 			EventBus.getDefault().post(new GetMissionDoneEvent(this.missionList));
 		} else {
 			EventBus.getDefault().post(new GetMissionFailEvent(result));
