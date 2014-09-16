@@ -30,6 +30,7 @@ public class UserVO implements Serializable {
 	private String company;
 	private String country;
 	private String realname;
+	private boolean autoLogin;
 
 
 	public String getCellphoneNumber() {
@@ -170,5 +171,13 @@ public class UserVO implements Serializable {
 
 	public void setCreator(String creator) {
 		this.creator = creator;
+	}
+
+	public boolean isAutoLogin() {
+		return autoLogin;
+	}
+
+	public void setAutoLogin(boolean autoLogin) {
+		this.autoLogin = autoLogin;
 	}
 }

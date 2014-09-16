@@ -18,12 +18,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pytech.hrm.R;
+import com.pytech.hrm.events.MissionSelectedChangedEvent;
 import com.pytech.hrm.models.mission.Mission;
 import com.pytech.hrm.util.TimeUtils;
 import com.pytech.hrm.util.constants.Colors;
 import com.pytech.hrm.util.constants.HRM;
 import com.pytech.hrm.util.constants.SoftwareKey;
 import com.pytech.hrm.util.constants.enums.MissionState;
+
+import de.greenrobot.event.EventBus;
 
 public class MissionAdapter extends ArrayAdapter<Mission> {
 	private int resource;
@@ -123,10 +126,12 @@ public class MissionAdapter extends ArrayAdapter<Mission> {
 		missionInfo.setText(String.format(formatedString, durationStr, state.toString()));
 
 		// 為 checkbox 附加 listener
+		final int pos = position;
 		OnCheckedChangeListener listener = new OnCheckedChangeListener() {			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				mission.setSelected(isChecked);
+				EventBus.getDefault().post(new MissionSelectedChangedEvent(pos, isChecked));
 			}
 		};
 		selected.setOnCheckedChangeListener(listener);

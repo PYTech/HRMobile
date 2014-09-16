@@ -6,18 +6,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
 import com.pytech.hrm.R;
 import com.pytech.hrm.events.LoginFailEvent;
 import com.pytech.hrm.events.LoginSuccessEvent;
-import com.pytech.hrm.util.PreferenceUtils;
+import com.pytech.hrm.models.user.UserVO;
+import com.pytech.hrm.util.UIUtils;
 import com.pytech.hrm.util.constants.HRM;
 import com.pytech.hrm.util.constants.REST;
 
@@ -27,6 +28,9 @@ public class LoginActivity extends HRMActivity {
 	private EditText usernameInput;
 	private EditText passwordInput;
 	private ToggleButton remember;
+	private Button loginButton;
+	
+	private static boolean first = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +50,15 @@ public class LoginActivity extends HRMActivity {
     }
 	
 	public void login(View view) {
-		// TODO: 加入帳密初步檢驗機制
 		String username = this.usernameInput.getText().toString();
 		String password = this.passwordInput.getText().toString();
 		this.userManager.login(username, password, this);
 		
 		// 判斷是否儲存自動登入資訊
 		if(this.remember.isChecked()) {
-			Editor editor = PreferenceUtils.getEditor(this);
-			editor.putString(HRM.KEY_AUTO_LOGIN_ACCOUNT, username);
-			editor.putString(HRM.KEY_AUTO_LOGIN_PASSWORD, password);
-			editor.commit();
+			this.userManager.keepLoginInfo(username, password, this);
+		} else {
+			this.userManager.cleanLoginInfo(this);
 		}
 	}
 	
@@ -111,10 +113,34 @@ public class LoginActivity extends HRMActivity {
 		this.usernameInput = (EditText) this.findViewById(R.id.input_account);
 		this.passwordInput = (EditText) this.findViewById(R.id.input_password);
 		this.remember = (ToggleButton) this.findViewById(R.id.toggle_remember_me);
+		this.loginButton = (Button) this.findViewById(R.id.login_go);
+		
+		UserVO localUser = this.userManager.getLoginInfo(this);
+		this.usernameInput.setText(localUser.getId());
+		this.passwordInput.setText(localUser.getPassword());
+		this.remember.setChecked(localUser.isAutoLogin());
+		if(localUser.isAutoLogin() && first) {
+			this.userManager.login(localUser.getId(), localUser.getPassword(), this);
+			first = false;
+		}
 	}
 
 	@Override
 	protected void processControllers() {
 		
+	}
+	
+	protected void enableInputs() {
+		UIUtils.setEditable(this.usernameInput, true);
+		UIUtils.setEditable(this.passwordInput, true);
+		UIUtils.setEditable(this.remember, true);
+		UIUtils.setEditable(this.loginButton, true);
+	}
+	
+	protected void disableInputs() {
+		UIUtils.setEditable(this.usernameInput, false);
+		UIUtils.setEditable(this.passwordInput, false);
+		UIUtils.setEditable(this.remember, false);
+		UIUtils.setEditable(this.loginButton, false);
 	}
 }

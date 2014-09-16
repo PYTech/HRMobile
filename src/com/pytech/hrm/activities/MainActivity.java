@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import com.pytech.hrm.R;
 import com.pytech.hrm.util.constants.HRM;
-import com.pytech.hrm.util.rest.RestManager;
 
 public class MainActivity extends HRMActivity {
 
@@ -19,10 +18,8 @@ public class MainActivity extends HRMActivity {
 
 		this.initialize();
 
-		// TODO: 判斷是否設定為自動登入，如果未設定或是登入失敗，才顯示登入畫面
-		if(true) {
-			this.gotoLoginPage();
-		}
+		// Page indirect.
+		this.gotoLoginPage();
 	}
 
 	@Override
@@ -40,7 +37,7 @@ public class MainActivity extends HRMActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 			case R.id.item_logout:
-				RestManager.cleanCookies();
+				this.userManager.logout();
 				this.gotoLoginPage();
 				break;
 			case R.id.item_settings:
@@ -70,13 +67,7 @@ public class MainActivity extends HRMActivity {
 	}
 
 	public void general() {
-		this.missionManager.getAllMissions(this);
-		try {
-			Thread.sleep(10000);
-		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	@Override

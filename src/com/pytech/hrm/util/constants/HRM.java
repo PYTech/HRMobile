@@ -18,10 +18,6 @@ public class HRM {
 	public static final int REQ_CODE_LOGIN = 1;
 	public static final int REQ_CODE_MISSION = 2;
 	
-	// Preference keys.
-	public static final String KEY_AUTO_LOGIN_ACCOUNT = "AUTO_USERNAME";
-	public static final String KEY_AUTO_LOGIN_PASSWORD = "AUTO_MIMA";
-	
 	public static final String DEFAULT_ENCODING = "UTF-8";
 	public static final String ANNONYMOUS = "annonymous";
 	public static final int PROGRESS_MAX = 100;

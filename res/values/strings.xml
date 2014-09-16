@@ -11,7 +11,7 @@
     <string name="title_login">登入雲算圖</string>
     <string name="label_login_account">帳號</string>
     <string name="label_login_mima">密碼</string>
-    <string name="label_login_remember">記住登入資訊</string>
+    <string name="label_login_remember">自動登入</string>
     <string name="label_login_go">登入</string>
     <string name="label_logout">登出</string>
     
