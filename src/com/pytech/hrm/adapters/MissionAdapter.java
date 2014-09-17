@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pytech.hrm.R;
+import com.pytech.hrm.events.MissionClickedEvent;
 import com.pytech.hrm.events.MissionSelectedChangedEvent;
 import com.pytech.hrm.models.mission.Mission;
 import com.pytech.hrm.util.TimeUtils;
@@ -135,6 +137,15 @@ public class MissionAdapter extends ArrayAdapter<Mission> {
 			}
 		};
 		selected.setOnCheckedChangeListener(listener);
+		
+		// 加入 onclick listener
+		OnClickListener onClickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				EventBus.getDefault().post(new MissionClickedEvent(pos));
+			}
+		};
+		missionView.setOnClickListener(onClickListener);
 		
 		return missionView;
 	}

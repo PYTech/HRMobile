@@ -12,9 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.pytech.hrm.R;
@@ -24,6 +21,7 @@ import com.pytech.hrm.events.GetMissionFailEvent;
 import com.pytech.hrm.events.LoginRequiredEvent;
 import com.pytech.hrm.events.MissionActDoneEvent;
 import com.pytech.hrm.events.MissionActFailEvent;
+import com.pytech.hrm.events.MissionClickedEvent;
 import com.pytech.hrm.events.MissionSelectedChangedEvent;
 import com.pytech.hrm.models.mission.Mission;
 import com.pytech.hrm.util.ModalUtils;
@@ -46,7 +44,6 @@ public class MissionActivity extends HRMActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mission);
 		this.initialize();
-		this.processDatas();
 		EventBus.getDefault().register(this);
 	}
 
@@ -98,6 +95,7 @@ public class MissionActivity extends HRMActivity {
 
 	public void onEventMainThread(GetMissionDoneEvent event) {
 		this.missionList.clear();
+		this.cleanSelect();
 		this.missionList.addAll(event.getMissionList());
 		this.missionAdapter.notifyDataSetChanged();
 	}
@@ -137,10 +135,22 @@ public class MissionActivity extends HRMActivity {
 		}
 		this.processMenu(null);
 	}
+	
+	public void onEventMainThread(MissionClickedEvent event) {
+		int position = event.getPosition();
+		Mission mission = this.missionList.get(position);
+		if(selectedCount > 0) {
+			processMenu(mission);
+			missionAdapter.notifyDataSetChanged();
+		} else {
+			// TODO: 顯示 mission 明細
+			Log.i(MissionActivity.class.getName(), "Show mission detail info.");
+		}
+	}
 
 	@Override
 	public void onBackPressed() {
-		if(this.selectedCount == 0) {
+		if(this.selectedCount <= 0) {
 			this.exitApp();
 		} else {
 			this.cleanSelect();
@@ -149,6 +159,9 @@ public class MissionActivity extends HRMActivity {
 
 	protected void processViews() {
 		this.missionListView = (ListView) this.findViewById(R.id.mission_list);
+		
+		this.missionAdapter = new MissionAdapter(this, R.layout.mission_record, this.missionList);
+		this.missionListView.setAdapter(missionAdapter);
 	}
 
 	protected void processMenuViews(Menu menu) {
@@ -163,35 +176,15 @@ public class MissionActivity extends HRMActivity {
 	}
 
 	protected void processControllers() {
-		// Click event handler for mission list view.
-		OnItemClickListener itemListener = new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Mission mission = (Mission) parent.getItemAtPosition(position);
-				if(selectedCount >= 0) {
-					processMenu(mission);
-					missionAdapter.set(position, mission);
-				} else {
-					// TODO: 顯示 mission 明細
-				}
-			}
-		};
-		this.missionListView.setOnItemClickListener(itemListener);
-	}
-
-	protected void processDatas() {
-		this.missionAdapter = new MissionAdapter(this, R.layout.mission_record, this.missionList);
-		this.missionListView.setAdapter(missionAdapter);
+		
 	}
 
 	protected void processMenu(Mission mission) {
 		if(mission != null) {
 			if(mission.isSelected()) {
 				mission.setSelected(false);
-				--this.selectedCount;
 			} else {
 				mission.setSelected(true);
-				++this.selectedCount;
 			}
 		}
 
@@ -301,8 +294,8 @@ public class MissionActivity extends HRMActivity {
 		for(Mission mission : this.missionList) {
 			mission.setSelected(false);
 		}
-		this.selectedCount = 0;
 		this.missionAdapter.notifyDataSetChanged();
+		this.selectedCount = 0;
 	}
 
 }

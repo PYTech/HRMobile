@@ -16,9 +16,21 @@ public class MissionManager {
 		missionTask.execute();
 	}
 	
+	public void getMissionsByProject(Context context, boolean showLoading, String projectOid) {
+		// TODO
+	}
+	
 	public void doMissionAction(Context context, MissionAction action, List<Mission> missionList) {
 		MissionActTask actTask = new MissionActTask(action);
 		actTask.setContext(context);
 		actTask.execute(missionList.toArray(new Mission[missionList.size()]));
+	}
+	
+	public void showResultMovie(Context context, Mission mission) {
+		// TODO
+	}
+	
+	public void downloadResultFiles(Context context, List<Mission> missionList) {
+		// TODO
 	}
 }
