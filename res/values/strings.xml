@@ -19,15 +19,35 @@
     
     <string name="title_mission">任務列表</string>
     <string name="label_mission_info">已執行:%%s / 狀態:%%s</string>
-    <string name="label_mission_act_refresh">更新列表</string>
     <string name="label_mission_act_cancel">取消任務</string>
     <string name="label_mission_act_pause">暫停任務</string>
     <string name="label_mission_act_resume">繼續任務</string>
     <string name="label_mission_act_restart">重啟任務</string>
+    <string name="label_mission_result_movie">播放作品影片</string>
+    <string name="label_mission_result_download">下載結果檔</string>
+    <string name="label_mission_detail_owner">擁有者</string>
+    <string name="label_mission_detail_engine">算圖引擎</string>
+    <string name="label_mission_detail_scene">目標場景檔</string>
+    <string name="label_mission_detail_range">影格範圍</string>
+    <string name="label_mission_detail_time_create">建立時間</string>
+    <string name="label_mission_detail_time_start">起始時間</string>
+    <string name="label_mission_detail_time_done">完成時間</string>
+    <string name="label_mission_detail_priority">優先等級</string>
+    <string name="label_mission_detail_9"></string>
+    <string name="label_mission_detail_10"></string>
+    
+    <string name="title_frame">任務[%s]影格列表</string>
+    <string name="label_frame_name">影格序:%d</string>
+    <string name="label_frame_info">已執行:%%s / 狀態:%%s</string>
+    <string name="label_frame_result_log">檢視系統訊息</string>
+    <string name="label_frame_result_pic">檢視作品縮圖</string>
+    <string name="label_frame_result_download">下載完整圖檔</string>
+    
+    <string name="label_act_refresh">更新</string>
     <string name="label_act_settings">設定</string>
-    <string name="label_duration">%%02d時 %%02d分 %%02d秒 </string>
-    <string name="label_duration_no_hour">%%02d分 %%02d秒 </string>
-    <string name="label_duration_unknown"> - </string>
+    <string name="label_duration">[%%02d時 %%02d分 %%02d秒]</string>
+    <string name="label_duration_no_hour">[%%02d分 %%02d秒]</string>
+    <string name="label_duration_unknown">[ - ]</string>
     
     <string name="msg_conn_fail">連線異常，請稍後再試</string>
     <string name="msg_fail_auth">身分認證失敗，請重新登入</string>

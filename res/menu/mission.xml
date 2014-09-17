@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/ic_action_refresh"
-        android:title="@string/label_mission_act_refresh"/>
+        android:title="@string/label_act_refresh"/>
 	
 	<item
         android:id="@+id/act_pause"

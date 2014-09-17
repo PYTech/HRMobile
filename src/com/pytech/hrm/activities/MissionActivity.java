@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -103,9 +105,10 @@ public class MissionActivity extends HRMActivity {
 	public void onEventMainThread(GetMissionFailEvent event) {
 		String errReason = event.getReason();
 		String errMsg = this.processErrMsg(errReason);
+		OnClickListener listener = this.genListener(errReason);
 		
 		// Show alert dialog.
-		ModalUtils.showAlarm(this, this.getString(R.string.msg_mission_get_fail), errMsg, null);
+		ModalUtils.showAlarm(this, this.getString(R.string.msg_mission_get_fail), errMsg, listener);
 	}
 
 	public void onEventMainThread(MissionActDoneEvent event) {
@@ -116,9 +119,10 @@ public class MissionActivity extends HRMActivity {
 	public void onEventMainThread(MissionActFailEvent event) {
 		String errReason = event.getReason();
 		String errMsg = this.processErrMsg(errReason);
+		OnClickListener listener = this.genListener(errReason);
 		
 		// Show alert dialog.
-		ModalUtils.showAlarm(this, this.getString(R.string.msg_mission_act_fail), errMsg, null);
+		ModalUtils.showAlarm(this, this.getString(R.string.msg_mission_act_fail), errMsg, listener);
 	}
 
 	public void onEventMainThread(MissionSelectedChangedEvent event) {
@@ -212,6 +216,21 @@ public class MissionActivity extends HRMActivity {
 			errMsg = this.getString(R.string.msg_conn_fail);
 		}
 		return errMsg;
+	}
+	
+	protected OnClickListener genListener(final String errReason) {
+		OnClickListener listener = null;
+		if(StringUtils.equals(errReason, HRM.TASK_RESULT_AUTH_FAIL)) {
+			listener = new OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+					finish();
+					EventBus.getDefault().post(new GetMissionFailEvent(errReason));
+				}
+			};
+		} 
+		return listener;
 	}
 
 	private List<Mission> extractTargets(MissionAction action) {
