@@ -132,6 +132,9 @@ public class MissionActivity extends HRMActivity {
 			++this.selectedCount;
 		} else {
 			--this.selectedCount;
+			if(this.selectedCount < 0) {
+				this.selectedCount = 0;
+			}
 		}
 		this.processMenu(null);
 	}
