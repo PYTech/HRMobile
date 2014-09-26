@@ -1,4 +1,4 @@
-package com.pytech.hrm.managers;
+package com.pytech.hrm.managers.impl;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.pytech.hrm.managers.IUserManager;
 import com.pytech.hrm.models.user.UserVO;
 import com.pytech.hrm.tasks.LoginTask;
 import com.pytech.hrm.util.PreferenceUtils;
@@ -13,7 +14,7 @@ import com.pytech.hrm.util.constants.HRM;
 import com.pytech.hrm.util.constants.PrefKey;
 import com.pytech.hrm.util.rest.RestManager;
 
-public class UserManager {
+public class UserManager implements IUserManager {
 	public void login(String username, String password, Context context) {
 		// Execute login async task.
 		UserVO userVO = new UserVO();
